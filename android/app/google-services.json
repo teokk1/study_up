@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "236778304264",
+    "firebase_url": "https://studyupapp-229d5.firebaseio.com",
+    "project_id": "studyupapp-229d5",
+    "storage_bucket": "studyupapp-229d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236778304264:android:5c695f613ff4b0ea",
+        "android_client_info": {
+          "package_name": "com.tkmgames.study_up"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236778304264-30r9isp3hpufl1le235i6sgt2aqecim8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tkmgames.study_up",
+            "certificate_hash": "6e2159783b54bc2fabe5b2213c96a4f3c8e34759"
+          }
+        },
+        {
+          "client_id": "236778304264-rljvt9a4m45a3p2dc8l2dt80l2q3s11f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6mrKyaItVJbX8lgPUtPeumhBN9vEsXxA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236778304264-rljvt9a4m45a3p2dc8l2dt80l2q3s11f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

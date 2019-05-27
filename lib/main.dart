@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:study_up/Manage/manage_screen.dart';
+import 'package:study_up/Manage/ManageScreen.dart';
 
+import 'DuelScreen.dart';
 import 'Globals.dart';
-import 'duel_screen.dart';
+import 'HTTP/Auth.dart';
+import 'MainMenuScreens/Groups.dart';
+import 'WidgetHelpers/WidgetHelpers.dart';
 
 void main() => runApp(App());
 
@@ -29,86 +31,99 @@ class HomePage extends StatefulWidget
 	HomePage({Key key, this.title}) : super(key: key);
 
 	@override
-	_HomePageState createState() => _HomePageState();
+	HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
+class HomePageState extends State<HomePage>
 {
+	LoginManager loginManager;
+
+	HomePageState()
+	{
+		loginManager = LoginManager();
+	}
+
 	duel_screen() => navigate_to(context, DuelScreen());
-	manage_screen() => navigate_to(context, ManageScreen());
-
-	GoogleSignIn googleSignIn = new GoogleSignIn
-	(
-		scopes:
-		[
-			'email',
-			'https://www.googleapis.com/auth/contacts.readonly',
-		],
-	);
-
-	initLogin()
-	{
-		googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) async
-		{
-			if (account != null)
-			{
-				// user logged
-			}
-			else
-			{
-				// user NOT logged
-			}
-		});
-//		_googleSignIn.signInSilently().whenComplete(() => dismissLoading());
-	}
-
-	doLogin() async
-	{
-//		showLoading();
-		await googleSignIn.signIn();
-	}
-
-	create_logo()
-	{
-		return Padding
-		(
-			padding: EdgeInsets.all(10.0),
-			child: Image.asset('assets/images/logo.png'),
-		);
-	}
-
-	create_menu(List<Widget> children)
-	{
-		return Align
-		(
-			alignment: Alignment.topCenter,
-			child: Column
-			(
-				//mainAxisAlignment: MainAxisAlignment.center,
-				children: children,
-			),
-		);
-	}
+	groups_screen() => navigate_to(context, GroupsWidget());
+	training_setup_screen() => navigate_to(context, ManageScreen());
 
 	@override
 	Widget build(BuildContext context)
 	{
-		return Scaffold
+		return basic_scaffold
 		(
-			backgroundColor: backgroundColor,
-			body: Padding
-			(
-			  padding: mainPadding,
-			  child: create_menu
-			  ([
-				  create_logo(),
+			create_menu
+			([
+				AppLogo(),
 
-				  create_button("Duel", duel_screen),
-				  create_button("Manage", manage_screen),
+				create_button("Duel", duel_screen),
+				create_button("Groups", groups_screen),
+				create_button("Train", training_setup_screen),
 
-				  RaisedButton(onPressed: () => doLogin(), child: Text("Login with Google"), color: accentColor),
-			  ]),
-			),
+				loginManager,
+			])
 		);
+	}
+}
+
+class AppLogo extends StatefulWidget
+{
+	@override
+	State<StatefulWidget> createState() => AppLogoState();
+}
+
+class AppLogoState extends State<AppLogo> with SingleTickerProviderStateMixin
+{
+	AnimationController animationController;
+	Animation<double> animation;
+
+	double minWidth;
+	double maxWidth;
+
+	@override
+	Widget build(BuildContext context)
+	{
+		minWidth = 0.85 * MediaQuery.of(context).size.width;
+		maxWidth = 0.88 * MediaQuery.of(context).size.width;
+
+		create_animation();
+
+		return Container
+		(
+			height: maxWidth / 2,
+			width: animation.value,
+			child: Image.asset('assets/images/logo.png'),
+		);
+	}
+
+	void create_animation()
+	{
+		animation = Tween<double>(begin: minWidth, end: maxWidth).animate(animationController)..addListener
+		(()
+			{
+				setState((){});
+			}
+		);
+	}
+
+	@override void initState()
+	{
+		super.initState();
+		create_animation_controller();
+	}
+
+	void create_animation_controller()
+	{
+		animationController = AnimationController(duration: const Duration(seconds: 2), vsync: this);
+
+		animationController.addStatusListener((status)
+		{
+			if (status == AnimationStatus.completed)
+				animationController.reverse();
+			else if (status == AnimationStatus.dismissed)
+				animationController.forward();
+		});
+
+		animationController.forward();
 	}
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../Globals.dart';
+import 'package:study_up/WidgetHelpers/WidgetHelpers.dart';
 
 class ManageGroupScreen extends StatelessWidget
 {
@@ -11,14 +10,9 @@ class ManageGroupScreen extends StatelessWidget
 	@override
 	Widget build(BuildContext context)
 	{
-		return Scaffold
+		return basic_scaffold
 		(
-			backgroundColor: backgroundColor,
-			body: Container
-			(
-				padding: defaultPadding,
-				child: create_text("Grupa: " + json['name']),
-			),
+			create_text("Grupa: " + json['name']),
 		);
 	}
 }

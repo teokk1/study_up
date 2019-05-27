@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'Globals.dart';
+import 'WidgetHelpers/WidgetHelpers.dart';
 
 class AsyncListView extends StatelessWidget
 {
@@ -16,8 +17,10 @@ class AsyncListView extends StatelessWidget
 	create_list_view(AsyncSnapshot snapshot)
 	{
 		var values = snapshot.data;
-		return new ListView.builder
+		return ListView.builder
 		(
+			shrinkWrap: true,
+			scrollDirection: Axis.vertical,
 			itemCount: values.length,
 			itemBuilder: (BuildContext context, int index)
 			{
@@ -26,7 +29,7 @@ class AsyncListView extends StatelessWidget
 					crossAxisAlignment: CrossAxisAlignment.start,
 					children: <Widget>
 					[
-						JsonListWidget(values[index], onItemClick, unJson),
+						JsonListItem(values[index], onItemClick, unJson),
 						create_divider(),
 					],
 				);
@@ -36,7 +39,7 @@ class AsyncListView extends StatelessWidget
 
 	Future<List<dynamic>> fetch(String endPoint) async
 	{
-		var response = await http.get("https://studyupserver20190527124006.azurewebsites.net/api/" + endPoint);
+		var response = await http.get(serverUrl + endPoint);
 
 		if (response.statusCode == 200)
 			return jsonDecode(response.body);
@@ -78,13 +81,13 @@ class AsyncListView extends StatelessWidget
 	}
 }
 
-class JsonListWidget extends StatelessWidget
+class JsonListItem extends StatelessWidget
 {
 	final Map<String, dynamic> json;
 	final Function onClick;
 	final UnJson unJson;
 
-	JsonListWidget(this.json, this.onClick, this.unJson);
+	JsonListItem(this.json, this.onClick, this.unJson);
 
 	@override
 	Widget build(BuildContext context)
