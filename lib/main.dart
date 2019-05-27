@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:study_up/Manage/manage_screen.dart';
+
 import 'Globals.dart';
 import 'duel_screen.dart';
-import 'manage_screen.dart';
 
 void main() => runApp(App());
 
@@ -14,8 +15,8 @@ class App extends StatelessWidget
 		return MaterialApp
 		(
 			title: 'Flutter Demo',
-			theme: ThemeData(primarySwatch: Colors.lightGreen, backgroundColor: Colors.lightGreen),
-			color: Colors.lightGreen,
+			theme: ThemeData(primarySwatch: Colors.lightGreen, backgroundColor: backgroundColor),
+			color: backgroundColor,
 			home: HomePage(title: 'StudyUp!'),
 		);
 	}
@@ -23,9 +24,9 @@ class App extends StatelessWidget
 
 class HomePage extends StatefulWidget
 {
-	HomePage({Key key, this.title}) : super(key: key);
-
 	final String title;
+
+	HomePage({Key key, this.title}) : super(key: key);
 
 	@override
 	_HomePageState createState() => _HomePageState();
@@ -33,23 +34,13 @@ class HomePage extends StatefulWidget
 
 class _HomePageState extends State<HomePage>
 {
-	RoundedRectangleBorder rounded_button_rect()
-	{
-		return RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0));
-	}
+	duel_screen() => navigate_to(context, DuelScreen());
+	manage_screen() => navigate_to(context, ManageScreen());
 
-	duel_screen()
-	{
-		Navigator.push(context, MaterialPageRoute(builder: (context) => DuelScreen()),);
-	}
-
-	manage_screen()
-	{
-		Navigator.push(context, MaterialPageRoute(builder: (context) => ManageScreen()),);
-	}
-
-	GoogleSignIn _googleSignIn = new GoogleSignIn(
-		scopes: [
+	GoogleSignIn googleSignIn = new GoogleSignIn
+	(
+		scopes:
+		[
 			'email',
 			'https://www.googleapis.com/auth/contacts.readonly',
 		],
@@ -57,19 +48,46 @@ class _HomePageState extends State<HomePage>
 
 	initLogin()
 	{
-		_googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) async {
-			if (account != null) {
+		googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount account) async
+		{
+			if (account != null)
+			{
 				// user logged
-			} else {
+			}
+			else
+			{
 				// user NOT logged
 			}
 		});
 //		_googleSignIn.signInSilently().whenComplete(() => dismissLoading());
 	}
 
-	doLogin() async {
+	doLogin() async
+	{
 //		showLoading();
-		await _googleSignIn.signIn();
+		await googleSignIn.signIn();
+	}
+
+	create_logo()
+	{
+		return Padding
+		(
+			padding: EdgeInsets.all(10.0),
+			child: Image.asset('assets/images/logo.png'),
+		);
+	}
+
+	create_menu(List<Widget> children)
+	{
+		return Align
+		(
+			alignment: Alignment.topCenter,
+			child: Column
+			(
+				//mainAxisAlignment: MainAxisAlignment.center,
+				children: children,
+			),
+		);
 	}
 
 	@override
@@ -77,26 +95,19 @@ class _HomePageState extends State<HomePage>
 	{
 		return Scaffold
 		(
-			backgroundColor: Colors.amber,
+			backgroundColor: backgroundColor,
 			body: Padding
 			(
-			  padding: const EdgeInsets.fromLTRB(20.0, 100.0, 20.0, 0),
-			  child: Align
-			  (
-			  	alignment: Alignment.topCenter,
-			  	child: Column
-			  	(
-			  		//mainAxisAlignment: MainAxisAlignment.center,
-			  		children: <Widget>
-			  		[
-			  			Image.asset('assets/images/logo.png'),
-			  			RaisedButton(child: Text("Duel"), color: buttonColor, shape: rounded_button_rect(), onPressed: duel_screen),
-						RaisedButton(child: Text("Manage"), color: buttonColor, shape: rounded_button_rect(), onPressed: manage_screen),
+			  padding: mainPadding,
+			  child: create_menu
+			  ([
+				  create_logo(),
 
-				  		RaisedButton(onPressed: () => doLogin(), child: Text("Login G+"), color: Colors.primaries[0]),
-			  		],
-			  	),
-			  ),
+				  create_button("Duel", duel_screen),
+				  create_button("Manage", manage_screen),
+
+				  RaisedButton(onPressed: () => doLogin(), child: Text("Login with Google"), color: accentColor),
+			  ]),
 			),
 		);
 	}
