@@ -17,6 +17,11 @@ create_text(String content, [num size = textSizeMedium])
 	return Text(content, style: TextStyle(color: textColorLight, fontSize: size));
 }
 
+create_dark_text(String content, [num size = textSizeMedium])
+{
+	return Text(content, style: TextStyle(color: textColorDark, fontSize: size));
+}
+
 create_divider()
 {
 	return Divider(height: 8.0, color: Colors.white,);
@@ -52,4 +57,24 @@ create_menu(List<Widget> children)
 	);
 }
 
+create_card(List<Widget> children)
+{
+	return Card
+	(
+		color: darkBackgroundColor,
+		child: Padding
+		(
+			padding: cardPadding,
+			child: Column
+			(
+				mainAxisSize: MainAxisSize.min,
+				children: children,
+			)
+		),
+	);
+}
 
+spacing(var amount)
+{
+	return SizedBox(height: amount);
+}

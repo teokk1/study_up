@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:study_up/Manage/ManageScreen.dart';
 
 import 'DuelScreen.dart';
 import 'Globals.dart';
+import 'Groups/GroupsScreen.dart';
 import 'HTTP/Auth.dart';
-import 'MainMenuScreens/Groups.dart';
+import 'Training/TrainingSetup.dart';
 import 'WidgetHelpers/WidgetHelpers.dart';
 
 void main() => runApp(App());
@@ -44,8 +44,8 @@ class HomePageState extends State<HomePage>
 	}
 
 	duel_screen() => navigate_to(context, DuelScreen());
-	groups_screen() => navigate_to(context, GroupsWidget());
-	training_setup_screen() => navigate_to(context, ManageScreen());
+	groups_screen() => navigate_to(context, GroupsScreen());
+	training_setup_screen() => navigate_to(context, TrainingSetupScreen());
 
 	@override
 	Widget build(BuildContext context)

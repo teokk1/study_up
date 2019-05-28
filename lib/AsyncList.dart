@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'Globals.dart';
+import 'UnJson/UnJsons.dart';
 import 'WidgetHelpers/WidgetHelpers.dart';
 
 class AsyncListView extends StatelessWidget
@@ -44,7 +45,7 @@ class AsyncListView extends StatelessWidget
 		if (response.statusCode == 200)
 			return jsonDecode(response.body);
 		else
-			throw Exception('Failed to load groups. Error code: ' + response.statusCode.toString() + " " + response.body);
+			throw Exception('Failed to load $endPoint -  Error code: ' + response.statusCode.toString() + " " + response.body);
 	}
 
 	widget_for_snapshot(var snapshot)
@@ -105,13 +106,5 @@ class JsonListItem extends StatelessWidget
 			),
 			onTap: () => {onClick(context, json)}
 		);
-	}
-}
-
-class UnJson
-{
-	List<Widget> translate(Map<String, dynamic> json)
-	{
-		return [Text("Override UnJson for your class")];
 	}
 }

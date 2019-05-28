@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:study_up/HTTP/Auth.dart';
+import 'package:study_up/UnJson/UnJsons.dart';
 import 'package:study_up/WidgetHelpers/WidgetHelpers.dart';
 
 import '../AsyncList.dart';
 import '../Globals.dart';
-import 'ManageGroup.dart';
+import 'ManageGroupScreen.dart';
 
-class UnJsonGroup extends UnJson
+class ManageGroupsScreen extends StatelessWidget
 {
-	@override List<Widget> translate(Map<String, dynamic> json)
-	{
-		return
-		[
-			create_text(json['name']),
-		];
-	}
-}
-
-class ManageScreen extends StatelessWidget
-{
-	ManageScreen();
+	ManageGroupsScreen();
 
 	manage_group(var context, var json) => navigate_to(context, ManageGroupScreen(json));
 

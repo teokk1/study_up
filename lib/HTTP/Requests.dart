@@ -38,4 +38,14 @@ class Requests
 
 		return future['name'];
 	}
+
+	static check_group_password(var id, var password) async
+	{
+		var future = await get_single(serverUrl + "groups/${id.toString()}/password/$password");
+
+		if(future == null)
+			return false;
+
+		return future;
+	}
 }

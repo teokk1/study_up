@@ -10,6 +10,7 @@ const Color textColorDark = Colors.black87;
 Color buttonColor = hex_color("#F26D6D");
 Color accentColor = hex_color("#DCF2DE");
 Color backgroundColor = hex_color("#56BF7B");
+Color darkBackgroundColor = hex_color("#2A6637");
 
 const num textSizeSmall = 15.0;
 const num textSizeMedium = 20.0;
@@ -19,6 +20,8 @@ const TextStyle textStyle = TextStyle(color: textColorLight, fontSize: textSizeM
 
 const EdgeInsets mainPadding = (const EdgeInsets.fromLTRB(20.0, 100.0, 20.0, 20.0));
 const EdgeInsets defaultPadding = (const EdgeInsets.fromLTRB(32.0, 64.0, 32.0, 32.0));
+const EdgeInsets cardPadding = (const EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 32.0));
+
 
 const String serverUrlBasic = "https://studyupserver20190527124006.azurewebsites.net";
 const String serverUrl = serverUrlBasic + "/api/";

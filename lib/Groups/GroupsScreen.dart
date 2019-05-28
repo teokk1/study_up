@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:study_up/Groups/ManageGroupsScreen.dart';
 import 'package:study_up/HTTP/FutureWidgets.dart';
 import 'package:study_up/HTTP/Requests.dart';
-import 'package:study_up/Manage/ManageScreen.dart';
 import 'package:study_up/WidgetHelpers/WidgetHelpers.dart';
 
 import '../Globals.dart';
+import 'JoinGroupScreen.dart';
 
-class GroupsWidget extends StatelessWidget
+class GroupsScreen extends StatelessWidget
 {
 	@override
 	Widget build(BuildContext context)
@@ -17,8 +18,8 @@ class GroupsWidget extends StatelessWidget
 			([
 				FutureWidgets.future_text(Requests.school_for_user()),
 
-				create_button("Manage", () => navigate_to(context, ManageScreen())),
-				create_button("Join", () => navigate_to(context, ManageScreen())),
+				create_button("Manage", () => navigate_to(context, ManageGroupsScreen())),
+				create_button("Join", () => navigate_to(context, JoinGroupsScreen())),
 			])
 		);
 	}
