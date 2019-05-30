@@ -5,16 +5,29 @@ import '../Globals.dart';
 
 class FutureWidgets
 {
-	static future_text(Future<dynamic> future, [String loadingText = "..."])
+	static FutureBuilder future_text(Future<dynamic> future, [String loadingText = "..."])
 	{
-		return new FutureBuilder
-			(
-				future: future,
-				initialData: loadingText,
-				builder: (BuildContext context, AsyncSnapshot<dynamic> text)
-				{
-					return create_text(text.data.toString(), textSizeSmall);
-				}
+		return FutureBuilder
+		(
+			future: future,
+			initialData: loadingText,
+			builder: (BuildContext context, AsyncSnapshot<dynamic> text)
+			{
+				return create_text(text.data.toString(), size: textSizeSmall);
+			}
+		);
+	}
+
+	static FutureBuilder future_button(Future<dynamic> future, Function onClick, [String loadingText = "..."])
+	{
+		return FutureBuilder
+		(
+			future: future,
+			initialData: loadingText,
+			builder: (BuildContext context, AsyncSnapshot<dynamic> text)
+			{
+				return create_button(text.data.toString(), onClick);
+			}
 		);
 	}
 }

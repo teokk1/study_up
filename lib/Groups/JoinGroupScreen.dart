@@ -32,12 +32,12 @@ class JoinGroupsScreenState extends State<JoinGroupsScreen>
 		if(filter.length > 0)
 			url += "/$filter";
 
-		return AsyncListView(join_group, url, UnJsonGroup());
+		return AsyncListView(join_group, url, UnJsonGroupJoin());
 	}
 
-	join_group(var context, var json)
+	join_group(var context, var json, JsonListItemState state)
 	{
-		JoinGroupForm(json, context).show_dialog();
+		JoinGroupForm(json, this).show_dialog(json['name']);
 		//ask for pass
 		//join
 	}
@@ -45,6 +45,11 @@ class JoinGroupsScreenState extends State<JoinGroupsScreen>
 	filter_changed(String filter)
 	{
 		recreate_list_view(filter);
+	}
+
+	refresh()
+	{
+		recreate_list_view("");
 	}
 
 	@override void initState()
@@ -56,63 +61,82 @@ class JoinGroupsScreenState extends State<JoinGroupsScreen>
 	@override
 	Widget build(BuildContext context)
 	{
-		return basic_scaffold
+		return Column
 		(
-			Column
-			(
-				children: <Widget>
-				[
-					create_text("Join Group:"),
-					TextField
-					(
-						decoration: InputDecoration(border: InputBorder.none, hintText: ''),
-						onChanged: filter_changed,
-					),
-					availableGroupList,
-					//Spacer(flex: 1),
-				],
-			)
+			children: <Widget>
+			[
+				create_text("Učlani se u grupu"),
+				spacing(20.0),
+				Container(child: text_field("Naziv", onChanged: filter_changed), width: percentage_width(context, 0.5)),
+				spacing(20.0),
+				availableGroupList,
+			],
 		);
 	}
 }
 
 class JoinGroupForm
 {
-	final BuildContext callerContext;
+	final JoinGroupsScreenState parentState;
 	final Map<String, dynamic> groupJson;
-	final TextField textField = TextField();
+	final TextEditingController passwordTextController = TextEditingController();
 
-	JoinGroupForm(this.groupJson, this.callerContext);
+	JoinGroupForm(this.groupJson, this.parentState);
 
-	try_to_join() async
+	check_password(int groupId, String password) async
 	{
-		var password = textField.toString();
 		print(password);
 
-		var response = await Requests.check_group_password(groupJson['id'], password);
-
-		if(response['correct'] == true)
-			create_snackbar(callerContext, "Joined group ${groupJson['name']}!");
-		else
-			create_snackbar(callerContext, "Invalid password for group ${groupJson['name']}!");
+		var response = await Requests.check_group_password(groupId, password);
+		return response['correct'];
 	}
 
-	void show_dialog()
+	try_to_join(BuildContext context) async
+	{
+		var groupId = groupJson['id'];
+		var password = passwordTextController.text;
+
+		var response = await join_group(groupId, password);
+
+		Navigator.pop(context);
+
+		if(response['correct'])
+		{
+			parentState.refresh();
+			create_snackbar(parentState.context, "Uspješno učljanjenje u grupu ${response['name']}!");
+		}
+		else
+			create_snackbar(parentState.context, "Pogrešna lozinka za grupu ${groupJson['name']}!");
+	}
+
+	static join_group(var id, var password) async
+	{
+		Map credentials =
+		{
+			"id" : id,
+			"password" : password
+		};
+
+		var future = await Requests.post(credentials, serverUrl + "users/${UserManager.user.id}/join-group");
+
+		return future;
+	}
+
+	void show_dialog(String groupName)
 	{
 		showDialog
 		(
-			context: callerContext,
+			context: parentState.context,
 			builder: (BuildContext context)
 			{
-				// return object of type Dialog
 				return AlertDialog
 				(
 					backgroundColor: accentColor,
-					title: create_dark_text("Group password:"),
-					content: textField,
+					title: create_dark_text("$groupName"),
+					content: dark_text_field("Lozinka", controller: passwordTextController, autoFocus: true, fontSize: textSizeSmall, textAlign: TextAlign.center),
 					actions: <Widget>
 					[
-						FlatButton(child: create_dark_text("Join"),onPressed: () => try_to_join()),
+						FlatButton(child: create_dark_text("Učlani se"), onPressed: () => try_to_join(context)),
 //						create_button("Join", () => try_to_join()),
 					],
 				);

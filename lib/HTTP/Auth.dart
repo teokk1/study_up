@@ -1,29 +1,41 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart' as http;
+import 'package:study_up/GoogleSignInButton/GoogleSignInButton.dart';
 import 'package:study_up/WidgetHelpers/WidgetHelpers.dart';
 
 import '../Globals.dart';
+import 'Requests.dart';
 
 class AppUser
 {
-	String id;
-	String name;
-	String email;
+	String id = "NONE";
+	String name = "";
+	String email = "";
+	String username = "";
+
+	int schoolId;
+
+	set_if_not_null(var variable, var value)
+	{
+		if(value != null)
+			return value;
+		return variable;
+	}
 
 	AppUser(var json)
 	{
-		this.id = json['id'];
-		this.name = json['name'];
-		this.email = json['email'];
+		this.id = set_if_not_null(this.id, json['id']);
+		this.name = set_if_not_null(this.name, json['name']);
+		this.username = set_if_not_null(this.username, json['username']);
+		this.email = set_if_not_null(this.email, json['email']);
 	}
 }
 
 class UserManager
 {
 	static AppUser user;
+
+	static bool logged_in() => user != null;
 }
 
 class LoginManager extends StatefulWidget
@@ -34,7 +46,7 @@ class LoginManager extends StatefulWidget
 
 class LoginManagerState extends State<LoginManager>
 {
-	RaisedButton loginButton;
+	GoogleSignInButton loginButton;
 	GoogleSignIn googleSignIn;
 
 	LoginManagerState()
@@ -48,8 +60,8 @@ class LoginManagerState extends State<LoginManager>
 			googleSignIn.signInSilently();
 	}
 
-	login_button() => RaisedButton(onPressed: () => logIn(), child: Text("Login with Google"), color: accentColor);
-	logout_button() => RaisedButton(onPressed: () => logOut(), child: Text("Logout"), color: accentColor);
+	login_button() => GoogleSignInButton(onPressed: logIn);
+	logout_button() => GoogleSignInButton(text: "Sign out", onPressed: logOut);
 
 	initLogin()
 	{
@@ -73,14 +85,7 @@ class LoginManagerState extends State<LoginManager>
 			"email": email
 		};
 
-		var body = json.encode(data);
-
-		var response = await http.post(serverUrl + "users/signin", headers: {"Content-Type": "application/json"}, body: body);
-
-		if (response.statusCode == 200)
-			return jsonDecode(response.body);
-		else
-			throw Exception('Failed to sign in to server. Error code: ' + response.statusCode.toString() + " " + response.body + body.toString());
+		return Requests.post(data, serverUrl + "users/signin", emptyResponse: "Not logged in", errorInfo: "Failed to sign in to Server.");
 	}
 
 	loggedIn(var email) async

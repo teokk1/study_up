@@ -15,33 +15,36 @@ class TrainingEntitySelect extends StatelessWidget
 
 	TrainingEntitySelect(this.title, this.endPoint, this.unJson, this.onClick);
 
-	void on_item_click(var context, var json)
+	void on_item_click(var context, var json, JsonListItemState state)
 	{
-		onClick(context, json);
+		onClick(context, json, state);
 	}
 
 	Widget build(BuildContext context)
 	{
 		return create_card
-		([
-			create_text(title),
-			spacing(20.0),
-			AsyncListView(onClick, endPoint, unJson),
-		]);
+		(
+			[
+				create_text(title),
+				spacing(8.0),
+				AsyncListView(on_item_click, endPoint, unJson)
+			],
+			padding: EdgeInsets.all(20.0),
+		);
 	}
 }
 
 class TrainingGroupSelect extends TrainingEntitySelect
 {
-	TrainingGroupSelect() : super("Group", "users/" + UserManager.user.id  + "/groups", UnJsonGroup(), (){});
+	TrainingGroupSelect(Function onClick) : super("Grupa", "users/${UserManager.user.id}/groups", UnJsonGroup(), onClick);
 }
 
 class TrainingSubjectSelect extends TrainingEntitySelect
 {
-	TrainingSubjectSelect(int groupId) : super("Subject", "groups/$groupId/subjects", UnJsonSubject(), (){});
+	TrainingSubjectSelect(int groupId, Function onClick) : super("Predmet", "groups/$groupId/subjects", UnJsonSubject(), onClick);
 }
 
 class TrainingCategorySelect extends TrainingEntitySelect
 {
-	TrainingCategorySelect(int groupId) : super("Category", "groups/$groupId/subjects", UnJsonSubject(), (){});
+	TrainingCategorySelect(int subjectId, Function onClick) : super("Kategorija", "subjects/$subjectId/categories", UnJsonCategory(), onClick);
 }
