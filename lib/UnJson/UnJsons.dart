@@ -71,12 +71,20 @@ class UnJsonGroupJoin extends UnJson
 	}
 }
 
-class UnJsonGroupManage extends UnJson
+class UnJsonGroupExtended extends UnJson
 {
 	IconData icon;
 
-	UnJsonGroupManage([this.icon = Icons.supervised_user_circle])
+	double paddingSize = 18.0;
+	double iconSize = 18.0;
+
+	UnJsonGroupExtended({IconData icon = Icons.group, double paddingSize = 20.0, double iconSize = 50.0})
 	{
+		this.icon = icon;
+
+		this.paddingSize = paddingSize;
+		this.iconSize = iconSize;
+
 		emptyMessage = "No groups";
 	}
 
@@ -90,7 +98,7 @@ class UnJsonGroupManage extends UnJson
 				decoration: gradient_decoration([transparent_white(32), transparent_white(64)]),
 				child: Padding
 				(
-					padding: EdgeInsets.all(40.0),
+					padding: EdgeInsets.all(paddingSize),
 					child: Row
 					(
 						mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,7 +106,7 @@ class UnJsonGroupManage extends UnJson
 						children:
 						[
 							create_text(json['name']),
-							Icon(icon, color: Colors.white, size: 50),
+							Icon(icon, color: Colors.white, size: iconSize),
 						],
 					)
 				)
@@ -110,8 +118,14 @@ class UnJsonGroupManage extends UnJson
 
 class UnJsonSubject extends UnJson
 {
-	UnJsonSubject()
+	double paddingSize = 18.0;
+	double iconSize = 18.0;
+
+	UnJsonSubject({double paddingSize = 18.0, double iconSize = 50.0})
 	{
+		this.paddingSize = paddingSize;
+		this.iconSize = iconSize;
+
 		emptyMessage = "No subjects";
 	}
 
@@ -125,7 +139,7 @@ class UnJsonSubject extends UnJson
 				decoration: gradient_decoration([transparent_white(32), transparent_white(64)]),
 				child: Padding
 				(
-					padding: EdgeInsets.all(18.0),
+					padding: EdgeInsets.all(paddingSize),
 					child: Row
 					(
 						mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -133,7 +147,7 @@ class UnJsonSubject extends UnJson
 						children:
 						[
 							create_text(json['name']),
-							Icon(Icons.lightbulb_outline, color: Colors.white, size: 50),
+							Icon(Icons.lightbulb_outline, color: Colors.white, size: iconSize),
 						],
 					)
 				)
@@ -144,8 +158,14 @@ class UnJsonSubject extends UnJson
 
 class UnJsonCategory extends UnJson
 {
-	UnJsonCategory()
+	double paddingSize = 18.0;
+	double iconSize = 18.0;
+
+	UnJsonCategory({double paddingSize = 18.0, double iconSize = 50.0})
 	{
+		this.paddingSize = paddingSize;
+		this.iconSize = iconSize;
+
 		emptyMessage = "No categories";
 	}
 
@@ -159,7 +179,7 @@ class UnJsonCategory extends UnJson
 				decoration: gradient_decoration([transparent_white(32), transparent_white(64)]),
 				child: Padding
 				(
-					padding: EdgeInsets.all(18.0),
+					padding: EdgeInsets.all(paddingSize),
 					child: Row
 					(
 						mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,7 +187,7 @@ class UnJsonCategory extends UnJson
 						children:
 						[
 							create_text(json['name']),
-							Icon(Icons.category, color: Colors.white, size: 50),
+							Icon(Icons.category, color: Colors.white, size: iconSize),
 						],
 					)
 				)

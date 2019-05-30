@@ -18,11 +18,11 @@ class ViewGroupsScreen extends StatelessWidget
 	{
 		return Column
 		(
-			mainAxisAlignment: MainAxisAlignment.start,
-			children: <Widget>
-			[
-				AsyncListView(view_group, "users/" + UserManager.user.id  + "/groups", UnJsonGroupManage(Icons.group)),
-			],
+				mainAxisAlignment: MainAxisAlignment.start,
+				children: <Widget>
+				[
+					AsyncListView(view_group, "users/" + UserManager.user.id + "/groups", UnJsonGroupExtended())
+				]
 		);
 	}
 }

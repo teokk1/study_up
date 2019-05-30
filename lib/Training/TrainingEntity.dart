@@ -36,15 +36,15 @@ class TrainingEntitySelect extends StatelessWidget
 
 class TrainingGroupSelect extends TrainingEntitySelect
 {
-	TrainingGroupSelect(Function onClick) : super("Grupa", "users/${UserManager.user.id}/groups", UnJsonGroup(), onClick);
+	TrainingGroupSelect(Function onClick) : super("Grupa", "users/${UserManager.user.id}/groups", UnJsonGroupExtended(paddingSize: 3.0, iconSize: 16.0), onClick);
 }
 
 class TrainingSubjectSelect extends TrainingEntitySelect
 {
-	TrainingSubjectSelect(int groupId, Function onClick) : super("Predmet", "groups/$groupId/subjects", UnJsonSubject(), onClick);
+	TrainingSubjectSelect(int groupId, Function onClick) : super("Predmet", "groups/$groupId/subjects", UnJsonSubject(paddingSize: 3.0, iconSize: 16.0), onClick);
 }
 
 class TrainingCategorySelect extends TrainingEntitySelect
 {
-	TrainingCategorySelect(int subjectId, Function onClick) : super("Kategorija", "subjects/$subjectId/categories", UnJsonCategory(), onClick);
+	TrainingCategorySelect(int subjectId, Function onClick) : super("Kategorija", "subjects/$subjectId/categories", UnJsonCategory(paddingSize: 3.0, iconSize: 16.0), onClick);
 }

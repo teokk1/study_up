@@ -63,7 +63,7 @@ basic_scaffold_login_required(Widget child, {Widget bottomNavigationBar, Widget 
 	if(UserManager.user != null)
 		return basic_scaffold(child, bottomNavigationBar: bottomNavigationBar, floatingActionButton: floatingActionButton, appBar: appBar, drawer: drawer);
 
-	return basic_scaffold(create_text("Please log in first"));
+	return basic_scaffold(create_text("Molimo prvo se ulogirajte."));
 }
 
 create_fab(IconData icon, Function onPress)

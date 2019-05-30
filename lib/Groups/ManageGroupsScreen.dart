@@ -72,6 +72,6 @@ class ManageGroupsScreenState extends State<ManageGroupsScreen>
 
 	void recreate_list_view()
 	{
-		listView = AsyncListView(manage_group, "users/" + UserManager.user.id  + "/groups-admin", UnJsonGroupManage());
+		listView = AsyncListView(manage_group, "users/" + UserManager.user.id  + "/groups-admin", UnJsonGroupExtended(icon: Icons.supervised_user_circle));
 	}
 }
