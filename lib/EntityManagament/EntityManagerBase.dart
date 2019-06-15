@@ -27,13 +27,14 @@ class EntityManager extends StatelessWidget
 				create_tab_bar_view(tabs),
 				appBar: create_app_bar(context),
 				drawer: MainAppDrawer.create(context),
+				decoration: main_gradient_decoration(),
 			)
 		);
 	}
 
 	AppBar create_app_bar(BuildContext context)
 	{
-		return back_button_app_bar(context, "$entityName ${object_title()}", tab_texts());
+		return back_button_app_bar(context, "$entityName ${object_title()}", bottom: tab_texts());
 	}
 
 	tab_texts()

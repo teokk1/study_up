@@ -1,8 +1,8 @@
 import 'package:study_up/EntityManagament/EntityManagerBase.dart';
 import 'package:study_up/EntityManagament/EntityTab.dart';
-import 'package:study_up/Subjects/ManageSubjectScreen.dart';
 import 'package:study_up/Subjects/ViewSubjectScreen.dart';
-import 'package:study_up/UnJson/UnJsons.dart';
+import 'package:study_up/UnJson/UnJsonsBasic.dart';
+import 'package:study_up/UnJson/UnJsonsComplex.dart';
 
 class ViewGroupScreen extends EntityManager
 {
@@ -11,15 +11,15 @@ class ViewGroupScreen extends EntityManager
 
 class ViewGroupSubjectsTab extends EntityTabWithList
 {
-	ViewGroupSubjectsTab(int groupId) : super((j) => ViewSubjectScreen(j), "Predmeti", "groups", groupId, "subjects", UnJsonSubject());
+	ViewGroupSubjectsTab(int groupId) : super((j) => ViewSubjectScreen(j), "Predmeti", "groups", groupId, "subjects", (r, c) => UnJsonSubject());
 }
 
 class ViewGroupMembersTab extends EntityTabWithList
 {
-	ViewGroupMembersTab(int groupId) : super((j) => ManageSubjectScreen(j), "Članovi", "groups", groupId, "members", UnJsonMember());
+	ViewGroupMembersTab(int groupId) : super((j) {}, "Članovi", "groups", groupId, "members-admins", (r, c) => UnJsonMemberAdmin());
 }
 
 class ViewGroupLeaderboardTab extends EntityTabWithList
 {
-	ViewGroupLeaderboardTab(int groupId) : super((j) => ManageSubjectScreen(j), "Ljestvice", "groups", groupId, "leaderboard", UnJsonLeaderboard());
+	ViewGroupLeaderboardTab(int groupId) : super((j) {}, "Ljestvice", "groups", groupId, "leaderboard", (r, c) =>  UnJsonLeaderboard());
 }

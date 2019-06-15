@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_up/EntityManagament/EntityManagerBase.dart';
 import 'package:study_up/EntityManagament/EntityTab.dart';
-import 'package:study_up/UnJson/UnJsons.dart';
+import 'package:study_up/UnJson/UnJsonsComplex.dart';
 
 class ViewAnswerScreen extends EntityManager
 {
@@ -10,5 +10,5 @@ class ViewAnswerScreen extends EntityManager
 
 class ViewAnswerTab extends EntityTabWithList
 {
-	ViewAnswerTab(int questionId) : super((j) => Container(child: Text(j['content'])), "", "", questionId, "", UnJsonAnswerManage());
+	ViewAnswerTab(int questionId) : super((j) => Container(child: Text(j['content'])), "", "", questionId, "", UnJsonAnswerView());
 }

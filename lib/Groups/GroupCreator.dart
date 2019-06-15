@@ -55,12 +55,12 @@ class GroupCreator
 				return AlertDialog
 				(
 					backgroundColor: accentColor,
-					title: create_dark_text("Create Group"),
+					title: create_dark_text("Nova grupa"),
 					content: dialog_form(),
 					actions: <Widget>
 					[
-						FlatButton(child: create_dark_text("Cancel"), onPressed: () => Navigator.pop(context)),
-						FlatButton(child: create_dark_text("Create"), onPressed: () => on_click(context, onFinish)),
+//						FlatButton(child: create_dark_text("Nazad"), onPressed: () => Navigator.pop(context)),
+						FlatButton(child: create_dark_text("Dodaj"), onPressed: () => on_click(context, onFinish)),
 					],
 				);
 			},

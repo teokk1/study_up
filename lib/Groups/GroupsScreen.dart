@@ -23,9 +23,9 @@ class GroupsScreenState extends State<GroupsScreen>
 	{
     	super.initState();
 
-		viewGroupsScreen = ViewGroupsScreen();
 		manageGroupsScreen = ManageGroupsScreen();
 		joinGroupsScreen = JoinGroupsScreen();
+		viewGroupsScreen = ViewGroupsScreen();
   	}
 
 	@override
@@ -36,16 +36,16 @@ class GroupsScreenState extends State<GroupsScreen>
 			length: 3,
 			child: basic_scaffold_login_required
 			(
-				create_tab_bar_view([viewGroupsScreen, manageGroupsScreen, joinGroupsScreen]),
+				create_tab_bar_view([ manageGroupsScreen, joinGroupsScreen, viewGroupsScreen,]),
 				appBar: create_app_bar(),
 				drawer: MainAppDrawer.create(context),
-
+				decoration: main_gradient_decoration(),
 			)
 		);
 	}
 
 	create_app_bar()
 	{
-		return back_button_app_bar(context, "Grupe", create_tabs_text(['Pregled', 'Upravljaj', 'Nađi']));
+		return back_button_app_bar(context, "Grupe", bottom: create_tabs_text(['Upravljaj', 'Nađi', 'Pregled']));
 	}
 }

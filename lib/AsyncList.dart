@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'Globals.dart';
 import 'HTTP/Requests.dart';
-import 'UnJson/UnJsons.dart';
+import 'UnJson/UnJsonsBase.dart';
 import 'WidgetHelpers/WidgetHelpers.dart';
 
 abstract class AsyncListViewParent
@@ -24,22 +24,26 @@ class AsyncListView extends StatelessWidget
 	create_list_view_fixed(AsyncSnapshot snapshot)
 	{
 		var values = snapshot.data;
-		return ListView.builder
+		return Expanded
 		(
-			shrinkWrap: true,
-			itemCount: values.length,
-			itemBuilder: (BuildContext context, int index)
-			{
-				return new Column
-				(
-					crossAxisAlignment: CrossAxisAlignment.start,
-					mainAxisAlignment: MainAxisAlignment.start,
-					children: <Widget>
-					[
-						JsonListItem(values[index], onItemClick, unJson),
-					],
-				);
-			},
+			child: ListView.builder
+			(
+				shrinkWrap: true,
+				itemCount: values.length,
+				itemBuilder: (BuildContext context, int index)
+				{
+					return new Column
+					(
+						mainAxisSize: MainAxisSize.max,
+						crossAxisAlignment: CrossAxisAlignment.start,
+						mainAxisAlignment: MainAxisAlignment.start,
+						children: <Widget>
+						[
+							JsonListItem(values[index], onItemClick, unJson),
+						],
+					);
+				},
+			)
 		);
 	}
 
@@ -51,6 +55,7 @@ class AsyncListView extends StatelessWidget
 			fit: FlexFit.loose,
 			child: ListView.builder
 			(
+				padding: EdgeInsets.all(4),
 				shrinkWrap: true,
 				scrollDirection: Axis.vertical,
 				itemCount: values.length,
@@ -85,7 +90,7 @@ class AsyncListView extends StatelessWidget
 			case ConnectionState.none:
 				return Text('Error: No connection.');
 			case ConnectionState.waiting:
-				return CircularProgressIndicator();
+				return Padding(padding: defaultPadding, child: center_column(CircularProgressIndicator()));
 			case ConnectionState.done:
 				if(snapshot.hasError)
 //					return create_text("{$snapshot.error}");

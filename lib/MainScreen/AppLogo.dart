@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../Globals.dart';
+
 class AppLogo extends StatefulWidget
 {
 	@override
@@ -17,16 +19,21 @@ class AppLogoState extends State<AppLogo> with SingleTickerProviderStateMixin
 	@override
 	Widget build(BuildContext context)
 	{
-		minWidth = 0.85 * MediaQuery.of(context).size.width;
-		maxWidth = 0.88 * MediaQuery.of(context).size.width;
+		minWidth = 0.85;
+		maxWidth = 0.88;
 
 		create_animation();
 
-		return Container
+		return Padding
 		(
-			height: maxWidth / 2,
-			width: animation.value,
-			child: Image.asset('assets/images/logo.png'),
+			child: FractionallySizedBox
+			(
+				alignment: Alignment.center,
+//				widthFactor: animation.value,
+//					heightFactor: 0.3,
+				child: Image.asset('assets/images/logo.png'),
+			),
+			padding: defaultPadding,
 		);
 	}
 

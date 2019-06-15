@@ -1,6 +1,6 @@
 import 'package:study_up/EntityManagament/EntityManagerBase.dart';
 import 'package:study_up/EntityManagament/EntityTab.dart';
-import 'package:study_up/UnJson/UnJsons.dart';
+import 'package:study_up/UnJson/UnJsonsComplex.dart';
 
 class ViewUserScreen extends EntityManager
 {

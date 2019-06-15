@@ -4,7 +4,6 @@ import 'package:study_up/HTTP/Requests.dart';
 import 'package:study_up/WidgetHelpers/WidgetHelpers.dart';
 
 import '../Globals.dart';
-import 'EntityTab.dart';
 
 class TextFieldWithController
 {
@@ -22,36 +21,43 @@ abstract class AddEntityForm
 {
 	final String endPoint;
 	final BuildContext callerContext;
-	final EntityTabWithList tab;
+//	final EntityTabWithList tab;
+
+	final Function refresh;
 
 	List<TextFieldWithController> textFields;
 
-	AddEntityForm(this.tab, this.endPoint, this.callerContext);
+//	AddEntityForm(this.tab, this.endPoint, this.callerContext);
+	AddEntityForm(this.refresh, this.endPoint, this.callerContext);
 
 	Map map_from_fields();
 
 	add(BuildContext context) async
 	{
+		print("ADD called");
+		
 		var payload = map_from_fields();
 
 		Navigator.pop(context);
 
 		var response = await Requests.post(payload, serverUrl + endPoint);
-
-		tab.refresh();
+		
+		refresh();
 	}
 
-	create_fields()
+	List<Widget> create_widgets()
 	{
-		List<Widget> fields = List<Widget>();
+		List<Widget> widgets = List<Widget>();
 
 		for(var pair in textFields)
-			fields.add(Padding(padding: EdgeInsets.all(4.0), child: pair.field));
+			widgets.add(Padding(padding: EdgeInsets.all(4.0), child: pair.field));
 
-		return SingleChildScrollView
-		(
-			child: Column(children: fields, mainAxisSize: MainAxisSize.min)
-		);
+		return widgets;
+	}
+
+	Widget create_content()
+	{
+		return Column(children: create_widgets(), mainAxisSize: MainAxisSize.min);
 	}
 
 	void show_dialog(String title)
@@ -65,7 +71,7 @@ abstract class AddEntityForm
 				(
 					backgroundColor: accentColor,
 					title: create_dark_text("$title", alignment: TextAlign.center),
-					content: create_fields(),
+					content:  SingleChildScrollView(child: create_content()),
 					actions: <Widget>
 					[
 						FlatButton(child: create_dark_text("Dodaj"), onPressed: () => add(context)),

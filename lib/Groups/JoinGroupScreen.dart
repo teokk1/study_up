@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_up/HTTP/Auth.dart';
 import 'package:study_up/HTTP/Requests.dart';
-import 'package:study_up/UnJson/UnJsons.dart';
+import 'package:study_up/UnJson/UnJsonsComplex.dart';
 import 'package:study_up/WidgetHelpers/WidgetHelpers.dart';
 
 import '../AsyncList.dart';
@@ -61,16 +61,19 @@ class JoinGroupsScreenState extends State<JoinGroupsScreen>
 	@override
 	Widget build(BuildContext context)
 	{
-		return Column
+		return default_padding
 		(
-			children: <Widget>
-			[
-				create_text("Učlani se u grupu"),
-				spacing(20.0),
-				Container(child: text_field("Naziv", onChanged: filter_changed), width: percentage_width(context, 0.5)),
-				spacing(20.0),
-				availableGroupList,
-			],
+			Column
+			(
+				children: <Widget>
+				[
+					create_text("Učlani se u grupu"),
+					spacing(20.0),
+					Container(child: text_field("Naziv", onChanged: filter_changed), width: percentage_width(context, 0.5)),
+					spacing(20.0),
+					availableGroupList,
+				],
+			)
 		);
 	}
 }

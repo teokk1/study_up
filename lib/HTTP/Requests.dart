@@ -24,6 +24,13 @@ class Requests
 
 		return process_response(route, response, emptyResponse, errorInfo);
 	}
+	
+	static Future<String> delete(String route, {var emptyResponse = "Empty", var errorInfo = "Delete failed"}) async
+	{
+		var response = await http.delete(serverUrl + route);
+		return "Kinda deleted";
+//		return process_response(route, response, emptyResponse, errorInfo);
+	}
 
 	static Future<List<dynamic>> get_list(String route) async
 	{
@@ -64,6 +71,16 @@ class Requests
 		if(future == null)
 			return "No Question";
 
+		return future;
+	}
+	
+	static random_questions(int categoryId, int count) async
+	{
+		var future = await get_list(serverUrl + "categories/$categoryId/random-questions/$count");
+		
+		if(future == null)
+			return "No Question";
+		
 		return future;
 	}
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_up/EntityManagament/EntityManagerBase.dart';
 import 'package:study_up/EntityManagament/EntityTab.dart';
-import 'package:study_up/UnJson/UnJsons.dart';
+import 'package:study_up/UnJson/UnJsonManage.dart';
 
 class ManageAnswerScreen extends EntityManager
 {

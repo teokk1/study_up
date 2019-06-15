@@ -3,7 +3,7 @@ import 'package:study_up/Categories/ManageCategoryScreen.dart';
 import 'package:study_up/EntityManagament/AddEntityForm.dart';
 import 'package:study_up/EntityManagament/EntityManagerBase.dart';
 import 'package:study_up/EntityManagament/EntityTab.dart';
-import 'package:study_up/UnJson/UnJsons.dart';
+import 'package:study_up/UnJson/UnJsonManage.dart';
 import 'package:study_up/WidgetHelpers/WidgetHelpers.dart';
 
 class ManageSubjectScreen extends EntityManager
@@ -13,11 +13,11 @@ class ManageSubjectScreen extends EntityManager
 
 class SubjectCategoriesTab extends EntityTabWithList
 {
-	SubjectCategoriesTab(int subjectId) : super((j) => ManageCategoryScreen(j), "Kategorije", "subjects", subjectId, "categories", UnJsonCategory());
+	SubjectCategoriesTab(int subjectId) : super((j) => ManageCategoryScreen(j), "Kategorije", "subjects", subjectId, "categories", (BuildContext c, Function r) => UnJsonCategoryManage(c, r));
 
 	void add_category_dialog(BuildContext callerContext, String groupName)
 	{
-		AddCategoryForm(this, "subjects/${data.entityId}/add-category", callerContext).show_dialog(groupName);
+		AddCategoryForm(refresh, "subjects/${data.entityId}/add-category", callerContext).show_dialog(groupName);
 	}
 
 	add_category()
@@ -34,7 +34,7 @@ class SubjectCategoriesTab extends EntityTabWithList
 
 class AddCategoryForm extends AddEntityForm
 {
-	AddCategoryForm(EntityTabWithList<Widget> tab, String endPoint, BuildContext callerContext) : super(tab, endPoint, callerContext)
+	AddCategoryForm(Function refresh, String endPoint, BuildContext callerContext) : super(refresh, endPoint, callerContext)
 	{
 		textFields =
 		[

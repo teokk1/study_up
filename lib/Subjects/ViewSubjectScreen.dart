@@ -1,7 +1,7 @@
 import 'package:study_up/Categories/ViewCategoryScreen.dart';
 import 'package:study_up/EntityManagament/EntityManagerBase.dart';
 import 'package:study_up/EntityManagament/EntityTab.dart';
-import 'package:study_up/UnJson/UnJsons.dart';
+import 'package:study_up/UnJson/UnJsonsComplex.dart';
 
 class ViewSubjectScreen extends EntityManager
 {
@@ -10,5 +10,5 @@ class ViewSubjectScreen extends EntityManager
 
 class ViewSubjectCategoriesTab extends EntityTabWithList
 {
-	ViewSubjectCategoriesTab(int subjectId) : super((j) => ViewCategoryScreen(j), "Kategorije", "subjects", subjectId, "categories", UnJsonCategory());
+	ViewSubjectCategoriesTab(int subjectId) : super((j) => ViewCategoryScreen(j), "Kategorije", "subjects", subjectId, "categories", (r, c) => UnJsonCategory());
 }

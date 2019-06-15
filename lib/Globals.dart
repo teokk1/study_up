@@ -3,26 +3,21 @@ import 'package:flutter/material.dart';
 const Color textColorLight = Colors.white;
 const Color textColorDark = Colors.black87;
 
-//Color buttonColor = Color(0xFFF26D6D);
-//Color accentColor = Color(0xFFDCF2DE);
-//Color backgroundColor = Color(0xFF56BF7B);
-
 Color purpleColor = hex_color("#5E5B95");
 
-Color buttonColor = hex_color("#F26D6D");
+Color buttonColor = hex_color("#FF8087");
+
+Color primaryColor = hex_color("#FA5072");
 
 Color accentColor = hex_color("#DCF2DE");
 Color darkerAccentColor = hex_color("#FA5072");
 
-Color backgroundColor = hex_color("#56BF7B");
+Color backgroundColor = hex_color("#543C88");
 Color darkBackgroundColor = hex_color("#2A6637");
 
 Color cardBackgroundColor = Color.fromARGB(32, 255, 255, 255);
 
 Color appBarColor = backgroundColor;
-
-Color correctColor = Color.fromARGB(128, 59, 255, 62);
-Color wrongColor = Color.fromARGB(128, 209, 27, 61);
 
 Color blueAccentColor = Colors.blue;
 
@@ -33,13 +28,17 @@ const num textSizeLarge = 25.0;
 const TextStyle textStyle = TextStyle(color: textColorLight, fontSize: textSizeMedium);
 
 const EdgeInsets mainPadding = (const EdgeInsets.fromLTRB(20.0, 100.0, 20.0, 20.0));
-const EdgeInsets defaultPadding = (const EdgeInsets.fromLTRB(32.0, 64.0, 32.0, 32.0));
+const EdgeInsets defaultPadding = (const EdgeInsets.fromLTRB(20.0, 32.0, 20.0, 20.0));
 const EdgeInsets cardPadding = (const EdgeInsets.fromLTRB(32.0, 32.0, 32.0, 32.0));
 
-const String serverUrlBasic = "https://studyupserver20190527124006.azurewebsites.net";
+const String serverUrlBasic = "https://studyupserver.azurewebsites.net";
+//const String serverUrlBasic = "http://10.0.2.2:8080";
 const String serverUrl = serverUrlBasic + "/api/";
 
-RoundedRectangleBorder roundedButtonRect = RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0));
+RoundedRectangleBorder rounded_button_rect(double borderRadius)
+{
+	return RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius));
+}
 
 navigate_to(var callerContext, Widget where) => Navigator.push(callerContext, MaterialPageRoute(builder: (callerContext) => where));
 

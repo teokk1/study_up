@@ -3,14 +3,21 @@ import 'package:study_up/HTTP/Auth.dart';
 
 import '../Globals.dart';
 
-create_button(String label, Function onPress)
+create_button(String label, Function onPress, {scale = 1.0, fontScale = 1.0})
 {
-	return RaisedButton(child: create_button_label(label), color: buttonColor, shape: roundedButtonRect, onPressed: onPress,);
+	return RaisedButton
+	(
+		child: create_button_label(label, scale: fontScale),
+		color: buttonColor,
+		shape: rounded_button_rect(80.0 * scale),
+		onPressed: onPress,
+		padding: EdgeInsets.symmetric(horizontal: 40.0 * scale, vertical: 20.0 * scale)
+	);
 }
 
-create_button_label(String content)
+create_button_label(String content, {scale = 1.0})
 {
-	return Text(content, style: TextStyle(color: textColorLight, fontSize: textSizeSmall),);
+	return Text(content, style: TextStyle(color: textColorLight, fontSize: textSizeMedium * scale),);
 }
 
 create_text(String content, {num size = textSizeMedium, TextAlign alignment = TextAlign.left, Color textColor = textColorLight})
@@ -28,14 +35,22 @@ create_divider()
 	return Divider(height: 8.0, color: Colors.white,);
 }
 
-create_snackbar(var context, String message)
+create_snackbar(var context, String message, {int duration = 600, Function action, String actionLabel = "Idi"})
 {
-	Scaffold.of(context).showSnackBar(SnackBar(content: new Text(message)));
+	if(action == null)
+		Scaffold.of(context).showSnackBar(SnackBar(content: new Text(message), duration: Duration(milliseconds: duration)));
+	else
+		Scaffold.of(context).showSnackBar(SnackBar(content: new Text(message), duration: Duration(milliseconds: duration), action: SnackBarAction(label: actionLabel, onPressed: action)));
 }
 
-basic_scaffold(Widget child, {Widget bottomNavigationBar, Widget floatingActionButton, Widget appBar, Widget drawer, EdgeInsets padding = defaultPadding})
+Scaffold currentScaffold;
+basic_scaffold
+(
+	Widget child, {Widget bottomNavigationBar, Widget floatingActionButton, Widget appBar, Widget drawer,
+	EdgeInsets padding = const EdgeInsets.all(0.0), BoxDecoration decoration = const BoxDecoration(color: Colors.transparent), GlobalKey key = null}
+)
 {
-	return Scaffold
+	currentScaffold = Scaffold
 	(
 //		backgroundColor: backgroundColor,
 		bottomNavigationBar: bottomNavigationBar,
@@ -43,12 +58,13 @@ basic_scaffold(Widget child, {Widget bottomNavigationBar, Widget floatingActionB
 
 		drawer: drawer,
 		appBar: appBar,
-
+		resizeToAvoidBottomPadding: false,
+		key: key,
 		body: Container
 		(
 			constraints: BoxConstraints.expand(),
 			alignment: Alignment.topCenter,
-			decoration:	main_gradient_decoration(),
+			decoration:	decoration,
 			child: Padding
 			(
 				padding: padding,
@@ -56,14 +72,24 @@ basic_scaffold(Widget child, {Widget bottomNavigationBar, Widget floatingActionB
 			)
 		)
 	);
+	return currentScaffold;
 }
 
-basic_scaffold_login_required(Widget child, {Widget bottomNavigationBar, Widget floatingActionButton, Widget appBar, Widget drawer})
+basic_scaffold_login_required
+(
+	Widget child, {Widget bottomNavigationBar, Widget floatingActionButton, Widget appBar, Widget drawer,
+	EdgeInsets padding = const EdgeInsets.all(0.0), BoxDecoration decoration = const BoxDecoration(color: Colors.transparent)}
+)
 {
 	if(UserManager.user != null)
-		return basic_scaffold(child, bottomNavigationBar: bottomNavigationBar, floatingActionButton: floatingActionButton, appBar: appBar, drawer: drawer);
+		return basic_scaffold(child, bottomNavigationBar: bottomNavigationBar, floatingActionButton: floatingActionButton, appBar: appBar, drawer: drawer, padding: padding, decoration: decoration);
 
-	return basic_scaffold(create_text("Molimo prvo se ulogirajte."));
+	return basic_scaffold(create_text("Molimo prvo se ulogirajte."), padding: mainPadding, decoration: main_gradient_decoration());
+}
+
+default_padding(Widget child)
+{
+	return Padding(padding: defaultPadding, child: child);
 }
 
 create_fab(IconData icon, Function onPress)
@@ -84,7 +110,7 @@ class LoginLockedScreen extends StatelessWidget
 	}
 }
 
-create_menu(List<Widget> children)
+create_menu(List<Widget> children, {MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start})
 {
 	return Align
 	(
@@ -92,6 +118,7 @@ create_menu(List<Widget> children)
 		child: Column
 		(
 			children: children,
+			mainAxisAlignment: mainAxisAlignment,
 		),
 	);
 }
@@ -143,22 +170,22 @@ max_height_box(double maxHeight, BuildContext context, Widget child)
 max_width_box(double maxWidth, BuildContext context, Widget child)
 {
 	return ConstrainedBox
-		(
-			constraints: new BoxConstraints( maxWidth: percentage_width(context, maxWidth) ),
-			child: child
+	(
+		constraints: new BoxConstraints( maxWidth: percentage_width(context, maxWidth) ),
+		child: child
 	);
 }
 
 max_size_box(double maxWidth, double maxHeight, BuildContext context, Widget child)
 {
 	return ConstrainedBox
-		(
-			constraints: new BoxConstraints(maxWidth: percentage_width(context, maxWidth), maxHeight: percentage_height(context, maxHeight)),
-			child: child
+	(
+		constraints: new BoxConstraints(maxWidth: percentage_width(context, maxWidth), maxHeight: percentage_height(context, maxHeight)),
+		child: child
 	);
 }
 
-back_button_app_bar(BuildContext context, String title, Widget bottom)
+back_button_app_bar(BuildContext context, String title, {Widget bottom})
 {
 	return AppBar
 	(
@@ -224,10 +251,39 @@ create_tab_bar_view(List<Widget> children)
 	);
 }
 
-gradient_decoration(List<Color> colors, {List<double> stops = const [0.1, 0.9], Alignment begin = Alignment.topLeft, Alignment end = Alignment.bottomRight})
+bottom_bar_text_and_button(List<Widget> texts, Widget button)
+{
+	return BottomAppBar
+	(
+		color: backgroundColor,
+		elevation: 0.0,
+		child: Padding
+		(
+			padding: EdgeInsets.all(5.0),
+			child: Wrap
+			(
+				alignment: WrapAlignment.spaceAround,
+				crossAxisAlignment: WrapCrossAlignment.center,
+				children: <Widget>
+				[
+					Wrap
+					(
+						alignment: WrapAlignment.center,
+						crossAxisAlignment: WrapCrossAlignment.center,
+						children: texts,
+					),
+					button
+				],
+			),
+		)
+	);
+}
+
+gradient_decoration(List<Color> colors, {List<double> stops = const [0.1, 0.9], Alignment begin = Alignment.topLeft, Alignment end = Alignment.bottomRight, double borderRadius = 0.0})
 {
 	return BoxDecoration
 	(
+		borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
 		gradient: LinearGradient
 		(
 			begin: begin,
@@ -239,9 +295,19 @@ gradient_decoration(List<Color> colors, {List<double> stops = const [0.1, 0.9], 
 	);
 }
 
+transparent_decoration()
+{
+	return BoxDecoration
+	(
+		color: Colors.transparent,
+	);
+}
+
 main_gradient_decoration()
 {
+	return gradient_decoration([hex_color("#7D1EE0"), hex_color("#D1517F")]);
 	return gradient_decoration([hex_color("#36C488"), hex_color("#7BE19A")]);
+	return gradient_decoration([hex_color("#FFFFFF"), hex_color("#FFFFFF")]);
 }
 
 text_field_border(Color borderColor)
@@ -278,11 +344,45 @@ text_field(String label, {bool autofocus = false, Function onChanged, Color text
 		autofocus: autofocus,
 		style: TextStyle(color: textColor, fontSize: fontSize),
 		onChanged: onChanged,
-		decoration: text_field_decoration(label, textColor, borderColor)
+		decoration: text_field_decoration(label, textColor, borderColor),
 	);
 }
 
 dark_text_field(String label, {TextEditingController controller, bool autoFocus = false, textAlign = TextAlign.left, fontSize: textSizeSmall})
 {
 	return text_field(label, controller: controller, autofocus: autoFocus, textColor: textColorDark, borderColor: Colors.black87, fontSize: fontSize, textAlign: textAlign);
+}
+
+center_column(Widget child)
+{
+	return Column(children: [child], mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.max);
+}
+
+dialog_choice_function(BuildContext context, Function function)
+{
+	Navigator.pop(context);
+	function();
+}
+
+basic_dialog(BuildContext context, String title, String content, Function yesFunction, Function noFunction, {String yesString = "Da", String noString = "No"})
+{
+	showDialog
+	(
+		context: context,
+		
+		builder: (BuildContext context)
+		{
+			return AlertDialog
+			(
+				backgroundColor: accentColor,
+				title: create_dark_text(title),
+				content: create_dark_text(content, alignment: TextAlign.center),
+				actions: <Widget>
+				[
+					FlatButton(child: create_dark_text(noString), onPressed: () => dialog_choice_function(context, noFunction)),
+					FlatButton(child: create_dark_text(yesString), onPressed: () => dialog_choice_function(context, yesFunction)),
+				],
+			);
+		}
+	);
 }

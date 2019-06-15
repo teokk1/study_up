@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:study_up/HTTP/Auth.dart';
-import 'package:study_up/UnJson/UnJsons.dart';
+import 'package:study_up/UnJson/UnJsonsComplex.dart';
+import 'package:study_up/WidgetHelpers/WidgetHelpers.dart';
 
 import '../AsyncList.dart';
 import '../Globals.dart';
@@ -18,11 +19,12 @@ class ViewGroupsScreen extends StatelessWidget
 	{
 		return Column
 		(
-				mainAxisAlignment: MainAxisAlignment.start,
-				children: <Widget>
-				[
-					AsyncListView(view_group, "users/" + UserManager.user.id + "/groups", UnJsonGroupExtended())
-				]
+			mainAxisAlignment: MainAxisAlignment.start,
+			children: <Widget>
+			[
+				spacing(10.0),
+				AsyncListView(view_group, "users/" + UserManager.user.id + "/groups", UnJsonGroupExtended())
+			]
 		);
 	}
 }

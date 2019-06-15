@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:study_up/HTTP/Auth.dart';
 import 'package:study_up/HTTP/Requests.dart';
-import 'package:study_up/UnJson/UnJsons.dart';
+import 'package:study_up/UnJson/UnJsonManage.dart';
 import 'package:study_up/WidgetHelpers/WidgetHelpers.dart';
 
 import '../AsyncList.dart';
@@ -52,11 +52,13 @@ class ManageGroupsScreenState extends State<ManageGroupsScreen>
 				mainAxisAlignment: MainAxisAlignment.start,
 				children:
 				[
+					spacing(10.0),
 					listView
 				],
 			),
 			padding: EdgeInsets.all(0.0),
 			floatingActionButton: create_fab(Icons.group_add, show_add_dialog),
+			decoration: main_gradient_decoration(),
 		);
 	}
 
@@ -67,11 +69,17 @@ class ManageGroupsScreenState extends State<ManageGroupsScreen>
 
 	void on_add_dialog_close()
 	{
-		setState(() => recreate_list_view());
+		refresh();
 	}
 
 	void recreate_list_view()
 	{
-		listView = AsyncListView(manage_group, "users/" + UserManager.user.id  + "/groups-admin", UnJsonGroupExtended(icon: Icons.supervised_user_circle));
+		print("recreating");
+		listView = AsyncListView(manage_group, "users/" + UserManager.user.id  + "/groups-admin", UnJsonGroupManage(context, refresh, icon: Icons.supervised_user_circle));
+	}
+	
+	void refresh()
+	{
+		setState(() => recreate_list_view());
 	}
 }
